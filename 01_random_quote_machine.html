@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  
+<style>
+/*
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,500);
+@import url('http://weloveiconfonts.com/api/?family=entypo');
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+body {
+  background: #33334d;
+  font-family: 'Raleway', 'FontAwesome', 'entypo', sans-serif;
+}
+
+.screen {
+  padding-bottom: 50px;
+  margin: 50px;
+  background: #b3b3cc;
+  border-radius: 10px;
+}
+
+.quote-box {
+  background: #;
+  border-radius: 4px;
+  width: 600px;
+  height: 450px;
+  position: relative;
+  display: table;
+  margin: 5% auto;
+}
+
+.quote-text {
+  padding: 120px 20px 40px 20px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.quote-author {
+  padding: 0px;
+  margin-right: 20px;
+  text-align: right;
+  font-size: 16px;
+  font-style: oblique;
+}
+
+.quote-button {
+  position: relative;
+  margin-right: 20px;
+  margin-bottom: 50px;
+  text-align: center;
+  padding: auto;
+  display: block;
+  font-weight: 500;
+  border-radius: 3px;
+}
+</style>
+</head>
+
+<body>
+  <div class="screen">
+    <div class="quote-box">
+      <div id="result">
+        <div class="quote-text">
+          <i class="fontawesome-quote-left">&nbsp </i><span id="newQuote"></span>
+          <i class="fontawesome-quote-right">  </i>
+        </div>
+        <div class="quote-author" id="newAuthor">
+        </div>
+      </div>
+    </div>
+    <div class="quote-button" id="getQuote">
+      <button class="btn btn-default entypo-feather"> New Quote</button>
+      <button onclick="tweetIt()" class="btn btn-default entypo-twitter" title='Tweet this quote!'></button>
+    </div>
+<script>
+  $(document).ready(function() {
+
+  var quotes = {
+    1: {
+      quote: "Because there is a law such as gravity, the Universe can and will create itself from nothing. Spontaneous creation is the reason there is something rather than nothing, why the Universe exists, why we exist. It is not necessary to invoke God to light the blue touch paper and set the Universe going.",
+      author: "Stephen Hawking (2010)"
+    },
+    2: {
+      quote: "Religion is an insult to human dignity. With or without it, you would have good people doing good things and evil people doing evil things. But for good people to do evil things, that takes religion.",
+      author: "Steven Weinberg (1999)"
+    },
+    3: {
+      quote: "The universe that we observe has precisely the properties we should expect if there is, at bottom, no design, no purpose, no evil, no good, nothing but pitiless indifference.",
+      author: "Richard Dawkins (1995)"
+    },
+    4: {
+      quote: "Atheism is more than just the knowledge that gods do not exist, and that religion is either a mistake or a fraud. Atheism is an attitude, a frame of mind that looks at the world objectively, fearlessly, always trying to understand all things as a part of nature.",
+      author: "Carl Sagan (c. 1985)"
+    },
+    5: {
+      quote: "What can be asserted without proof can be dismissed without proof.",
+      author: "Christopher Hitchens (2004)"
+    },
+    6: {
+      quote: "When one person suffers from a delusion, it is called insanity. When many people suffer from a delusion it is called Religion.",
+      author: "Robert M. Pirsig (1974)"
+    },
+    7: {
+      quote: "Atheism is a very positive affirmation of man's ability to think for himself, to do for himself, to find answers to his own problems.",
+      author: "Madalyn Murray O'Hair (1965)"
+    },
+    8: {
+      quote: "A mans ethical behaviour should be based effectually on sympathy, education and social ties and needs; no religious basis is necessary. Man would indeed be in a poor way if he had to be restrained by fear of punishment and hope of reward after death.",
+      author: "Albert Einstein (1930)"
+    },
+    9: {
+      quote: "Religion is an illusion and it derives its strength from the fact that it falls in with our instinctual desires.",
+      author: "Sigmund Freud (1932)"
+    },
+
+    10: {
+      quote: "Religion prevents our children from having a rational education; religion prevents us from removing the fundamental causes of war; religion prevents us from teaching the ethic of scientific cooperation in place of the old fierce doctrines of sin and punishment. It is possible that mankind is on the threshold of a golden age; but, if so, it will be necessary first to slay the dragon that guards the door, and this dragon is religion.",
+      author: "Bertrand Russell (1930)"
+    },
+
+    11: {
+      quote: "All thinking men are atheists.",
+      author: "Ernest Hemingway (1929)"
+    },
+
+    12: {
+      quote: "Morality is doing what is right, no matter what you are told. Religion is doing what you are told, no matter what is right.",
+      author: "H. L. Mencken (c.1925)"
+    },
+
+    13: {
+      quote: "The fact that a believer is happier than a sceptic is no more to the point than the fact that a drunken man is happier than a sober one. The happiness of credulity is a cheap and dangerous quality.",
+      author: "George Bernard Shaw (1916)"
+    },
+
+    14: {
+      quote: "The gods offer no rewards for intellect. There was never one yet that showed any interest in it.",
+      author: "Mark Twain (1900)"
+    },
+
+    15: {
+      quote: "Skepticism is the highest of duties; blind faith the one unpardonable sin.",
+      author: "Thomas Huxley (1907)"
+    },
+
+    16: {
+      quote: "Which is it, is man one of God's blunders or is God one of man's?",
+      author: "Friedrich Nietzsche (1889)"
+    },
+
+    17: {
+      quote: "I cannot persuade myself that a beneficent and omnipotent God would have designedly created the Ichneumonidae with the express intention of their feeding within the living bodies of caterpillars, or that a cat should play with mice.",
+      author: "Charles Darwin (1860)"
+    },
+
+    18: {
+      quote: "Religion is the sigh of the oppressed creature, the heart of a heartless world, and the soul of soulless conditions. It is the opium of the people.",
+      author: "Karl Marx (1844)"
+    },
+
+    19: {
+      quote: "Religion is excellent stuff for keeping common people quiet.",
+      author: "Napoleon Bonaparte"
+    },
+
+    20: {
+      quote: "It is always better to have no ideas than false ones; to believe nothing, than to believe what is wrong.",
+      author: "Thomas Jefferson (1788)"
+    },
+
+    21: {
+      quote: "Atheism is the vice of a few intelligent people.",
+      author: "Voltaire (1764)"
+    },
+
+    22: {
+      quote: "Religion is an insult to human dignity. With or without it, you would have good people doing good things and evil people doing evil things. But for good people to do evil things, that takes religion.",
+      author: "Steven Weinberg (1999)"
+    },
+
+    23: {
+      quote: "When I do good, I feel good. When I do bad, I feel bad. That's my religion.",
+      author: "Abraham Lincoln"
+    },
+
+    24: {
+      quote: "Lighthouses are more helpful then churches.",
+      author: "Benjamin Franklin"
+    },
+
+    25: {
+      quote: "I don't feel frightened by not knowing things. By being lost in mysterious universe without having any purpose, which is the way it really is, as far as I can tell, possibly. It doesn't frighten me.",
+      author: "Richard Feynman"
+    },
+
+    26: {
+      quote: "A man's ethical behavior should be based effectually on sympathy, education, and social ties and needs; no religious basis is necessary. Man would indeed be in a poor way if he had to be restrained by fear of punishment and hope of reward after death.",
+      author: "Albert Einstein"
+    },
+
+    27: {
+      quote: "Where knowledge ends, religion begins.",
+      author: "Benjamin Disraeli"
+    },
+
+    28: {
+      quote: "Nothing can be more contrary to religion and the clergy than reason and common sense.",
+      author: "Francois Marie Arouet (Voltaire)"
+    },
+
+    29: {
+      quote: "Good people can do good and bad people can do evil. But for good people to do evil - that takes religion.",
+      author: "Steven Weinberg"
+    },
+
+    30: {
+      quote: "Religion . . . comprises a system of wishful illusions together with a disavowal of reality, such as we find in an isolated form nowhere else but in amentia, in a state of blissful hallucinatory confusion.",
+      author: "Sigmund Freud"
+    },
+
+    31: {
+      quote: "Man is the religious animal. He is the only religious animal. He is the only animal that has the True Religion – several of them. He is the only animal that loves his neighbor as himself and cuts his throat, if his theology isn’t straight. He has made a graveyard of the globe in trying his honest best to smooth his brother’s path to happiness and heaven.",
+      author: "Mark Twain"
+    },
+
+    32: {
+      quote: "Faith may be defined briefly as an illogical belief in the occurrence of the improbable.",
+      author: "H. L. Mencken"
+    },
+
+    33: {
+      quote: "The deepest sin against the human mind is to believe things without evidence.",
+      author: "Thomas H. Huxley"
+    },
+
+    34: {
+      quote: "It is best to read the weather forecast before praying for rain.",
+      author: "Mark Twain"
+    },
+
+    35: {
+      quote: "A multitude of aspects of the natural world that were considered miraculous only a few generations ago are now thoroughly understood in terms of physics and chemistry.",
+      author: "Carl Sagan"
+    },
+
+    36: {
+      quote: "If there is a supreme being, he’s crazy.",
+      author: "Marlene Dietrich"
+    },
+
+    37: {
+      quote: "Science has done more for the development of Western civilization in 100 years than Christianity did in 1,800 years.",
+      author: "John Burroughs"
+    },
+
+    38: {
+      quote: "Religion without science is blind.",
+      author: "Albert Einstein"
+    },
+
+    39: {
+      quote: "Give a man a fish and he will eat for a day; teach a man to fish and he will eat for a lifetime; give a man religion and he will die praying for a fish.",
+      author: "Unknown"
+    },
+
+    40: {
+      quote: "Extraordinary claims require extraordinary evidence.",
+      author: "Carl Sagan"
+    },
+
+    41: {
+      quote: "Those who believe absurdities will commit atrocities.",
+      author: "Voltaire"
+    },
+
+    42: {
+      quote: "We must conduct research and then accept the results. If they don't stand up to experimentation, Buddha's own words must be rejected.",
+      author: "Tenzin Gyatso, 14th Dalai Lama"
+    },
+
+    43: {
+      quote: "If God exists, I hope he has a good excuse",
+      author: "Woody Allen"
+    },
+
+    44: {
+      quote: "silence",
+      author: "God"
+    },
+
+    45: {
+      quote: "So far as I can remember, there is not one word in the Gospels in praise of intelligence",
+      author: "Bertrand Russell"
+    },
+
+    46: {
+      quote: "Thank god I'm an atheist...",
+      author: "Salvador Dali"
+    },
+
+    47: {
+      quote: "And on the trillionth day, Man created Gods.",
+      author: "Thomas D. Pate"
+    },
+
+    48: {
+      quote: "The God of the Old Testament is arguably the most unpleasant character in all fiction: jealous and proud of it; a petty, unjust, unforgiving control-freak; a vindictive, bloodthirsty ethnic cleanser; a misogynistic, homophobic, racist, infanticidal, genocidal, filicidal, pestilential, megalomaniacal, sadomasochistic, capriciously malevolent bully.",
+      author: "Richard Dawkins"
+    },
+
+    49: {
+      quote: "Life is but a momentary glimpse of the wonder of the astonishing universe, and it is sad to see so many dreaming it away on spiritual fantasy.",
+      author: "Carl Sagan"
+    },
+
+    50: {
+      quote: "We are all atheists about most of the gods that societies have ever believed in. Some of us just go one god further.",
+      author: "Richard Dawkins"
+    },
+
+    51: {
+      quote: "God is an ever-receding pocket of scientific ignorance that’s getting smaller and smaller and smaller as time goes on.",
+      author: "Neil deGrasse Tyson"
+    },
+
+    52: {
+      quote: "Reality is that which, when you stop believing in it, doesn’t go away.",
+      author: "Philip K. Dick"
+    },
+
+    53: {
+      quote: "Live a good life. If there are gods and they are just, then they will not care how devout you have been, but will welcome you based on the virtues you have lived by. If there are gods, but unjust, then you should not want to worship them. If there are no gods, then you will be gone, but will have lived a noble life that will live on in the memories of your loved ones.",
+      author: "Marcus Aurelius"
+    },
+
+    54: {
+      quote: "I used to be Christian, but then I thought about it",
+      author: "Anonymous"
+    },
+
+    55: {
+      quote: "Not only is there no god, but try getting a plumber on weekends.",
+      author: "Woody Allen"
+    },
+
+    56: {
+      quote: "Faith does not give you the answers, it just stops you asking the questions.",
+      author: "Frater Ravus"
+    },
+    57: {
+      quote: "A man without religion is like a fish without a bicycle",
+      author: "Anonymous"
+    },
+
+  }
+
+  var getQuote = function() {
+
+    var number = Math.floor(Math.random() * 57 + 1);
+    var q = number;
+    newQuote = quotes[q].quote;
+    newAuthor = quotes[q].author;
+
+  };
+
+  // insert to html /click to get a new Quote 
+  $('#getQuote').click(function() {
+    getQuote();
+    $("#newQuote").text(newQuote);
+    $("#newAuthor").text(newAuthor);
+
+  });
+
+});
+
+function tweetIt() {
+  var phrase = document.getElementById('newQuote').innerText;
+  var author = document.getElementById('newAuthor').innerText;
+
+  var tweetUrl = 'https://twitter.com/share?text=' +
+    encodeURIComponent(phrase) + ' ' + encodeURIComponent(author) +
+    '&url=' +
+    'http://www.quotes.com/';
+
+  window.open(tweetUrl);
+}
+</script>
+</body>
+
+</html>
